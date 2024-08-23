@@ -80,7 +80,7 @@ public class DishServiceImpl implements DishService {
     @Override
     public void deleteBatch(List<Long> ids) {
         //判断当前菜品是否能够删除--是否存在起售中的菜品？
-        ids.forEach(id ->{
+        ids.forEach(id -> {
             Dish dish = dishMapper.getById(id);
             if (dish.getStatus() == StatusConstant.ENABLE) {
                 //当前菜品起售中...不能删除
@@ -97,12 +97,16 @@ public class DishServiceImpl implements DishService {
 
 
         //删除菜品表记录
-        ids.forEach(id -> {
-            dishMapper.deleteById(id);
-            //删除关联的口味表记录
-            dishFlavorMapper.deleteByDishId(id);
-        });
+//        ids.forEach(id -> {
+//            dishMapper.deleteById(id);
+//            //删除关联的口味表记录
+//            dishFlavorMapper.deleteByDishId(id);
+//        });
 
-
+        //优化减少SQL提交
+        //批量删除菜品表记录
+        dishMapper.deleteByIds(ids);
+        //批量删除关联的口味表记录
+        dishFlavorMapper.deleteByDishIds(ids);
     }
 }
