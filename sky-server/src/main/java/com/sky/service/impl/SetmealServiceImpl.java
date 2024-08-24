@@ -2,10 +2,15 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.exception.DeletionNotAllowedException;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -16,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +31,8 @@ public class SetmealServiceImpl implements SetmealService {
     private SetmealMapper setmealMapper;
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+    @Autowired
+    private  DishMapper dishMapper;
 
     /**
      * 分页查询
@@ -49,7 +57,7 @@ public class SetmealServiceImpl implements SetmealService {
         BeanUtils.copyProperties(setmealDTO,setmeal);
         setmealMapper.insert(setmeal);
 
-        //获取生成的套餐id
+        //获取在xml生成返回的套餐id
         Long setmealId = setmeal.getId();
 
         List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
@@ -59,4 +67,88 @@ public class SetmealServiceImpl implements SetmealService {
 
         setmealDishMapper.insert(setmealDishes);
     }
+
+    /**
+     * 批量删除套餐
+     * @param ids
+     */
+    @Transactional
+    @Override
+    public void delete(List<Long> ids) {
+        //判断套餐是否能删除 -- 启用出售的不能删除
+        ids.forEach(id->{
+            Setmeal setmeal = setmealMapper.getById(id);
+            if (StatusConstant.ENABLE == setmeal.getStatus()){
+                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
+            }
+        });
+
+        setmealMapper.delete(ids);
+        //删除套餐关联的菜品
+        setmealDishMapper.deleteWithSetmealId(ids);
+    }
+
+    /**
+     * 根据套餐ID查询信息
+     * @param id
+     * @return
+     */
+    @Override
+    public SetmealVO getSetmealById(Long id) {
+        Setmeal setmeal = setmealMapper.getById(id);
+        List<SetmealDish> setmealDishes = setmealDishMapper.getBySetmealId(id);
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal,setmealVO);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
+    }
+
+    /**
+     * 修改套餐
+     * @param setmealDTO
+     */
+    @Transactional
+    @Override
+    public void update(SetmealDTO setmealDTO) {
+        //修改基础套餐数据
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO,setmeal);
+        setmealMapper.update(setmeal);
+
+        //先删除再插入,减少更新数组判断逻辑（减少判断添加或减少菜品关联）
+        //获取修改的套餐id
+        Long setmealId = setmealDTO.getId();
+        List<Long> id = new ArrayList<>();
+        id.add(setmealId);
+        setmealDishMapper.deleteWithSetmealId(id);
+
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        setmealDishes.forEach(setmealDish -> {
+            setmealDish.setSetmealId(setmealId);
+        });
+        setmealDishMapper.insert(setmealDishes);
+
+    }
+    /**
+     * 启用禁用套餐
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        //如果套餐内包含停售的菜品，则不能起售
+        if (StatusConstant.ENABLE == status){
+            List<Dish> dishes = dishMapper.getBySetmealId(id);
+            dishes.forEach(dish -> {
+                if (dish.getStatus() == StatusConstant.DISABLE){
+                    throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                }
+            });
+        }
+
+        Setmeal updateStatus = Setmeal.builder().status(status).id(id).build();
+        setmealMapper.update(updateStatus);
+    }
+
+
 }
