@@ -11,3 +11,8 @@ sky:
     bucket-name: web-cai-filestream
     access-key-id: LTAI5tLEUhQWTmPs215PDuLT
     access-key-secret: vXISGGzEiBPSMp9hJhqkJdI5tazaG9
+  redis:
+    host: localhost
+    port: 6379
+    password: 666gGg88
+    database: 10
