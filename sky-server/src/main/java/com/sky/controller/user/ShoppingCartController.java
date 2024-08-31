@@ -57,4 +57,17 @@ public class ShoppingCartController {
         shoppingCartService.cleanShoppingCart();
         return Result.success();
     }
+
+    /**
+     * 减少购物车数据
+     * @param shoppingCartDTO
+     * @return
+     */
+    @ApiOperation("减少购物车数据")
+    @PostMapping("/sub")
+    public Result delete(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("减少购物车数据,商品为：{}",shoppingCartDTO);
+        shoppingCartService.deleteShoppingCart(shoppingCartDTO);
+        return Result.success();
+    }
 }
