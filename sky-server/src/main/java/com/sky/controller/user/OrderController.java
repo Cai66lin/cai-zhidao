@@ -1,7 +1,9 @@
 package com.sky.controller.user;
 
+import com.sky.dto.OrdersHistoryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
@@ -11,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController("userOrderController")
@@ -36,7 +40,6 @@ public class OrderController {
 
     /**
      * 订单支付
-     *
      * @param ordersPaymentDTO
      * @return
      */
@@ -49,4 +52,16 @@ public class OrderController {
         return Result.success(orderPaymentVO);
     }
 
+    /**
+     * 历史订单查询
+     * @param ordersHistoryDTO
+     * @return
+     */
+    @ApiOperation("历史订单查询")
+    @GetMapping("/historyOrders")
+    public Result<PageResult> page(OrdersHistoryDTO ordersHistoryDTO){
+        log.info("历史订单查询{}", ordersHistoryDTO);
+        PageResult pageResult = orderService.pageQuery4User(ordersHistoryDTO);
+        return Result.success(pageResult);
+    }
 }
