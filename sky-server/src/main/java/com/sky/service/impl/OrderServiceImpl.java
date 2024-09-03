@@ -255,6 +255,10 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(updateOrder);
     }
 
+    /**
+     * 再来一单
+     * @param id
+     */
     @Override
     public void repetition(Long id) {
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(id);
@@ -386,6 +390,36 @@ public class OrderServiceImpl implements OrderService {
         // 根据订单id更新订单状态、拒单原因、取消时间
         Orders orders = new Orders();
         BeanUtils.copyProperties(ordersRejectionDTO, orders);
+        orders.setStatus(Orders.CANCELLED);
+        orders.setCancelTime(LocalDateTime.now());
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 管理端取消订单
+     * @param ordersCancelDTO
+     * @throws Exception
+     */
+    @Override
+    public void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception {
+        Orders orderDB = orderMapper.getById(ordersCancelDTO.getId());
+
+        //支付状态
+        Integer payStatus = orderDB.getPayStatus();
+        if (payStatus == 1) {
+            //用户已支付，需要退款
+            String refund = weChatPayUtil.refund(
+                    orderDB.getNumber(),
+                    orderDB.getNumber(),
+                    new BigDecimal(0.01),
+                    new BigDecimal(0.01));
+
+            log.info("申请退款：{}", refund);
+        }
+
+        // 根据订单id更新订单状态、取消原因、取消时间
+        Orders orders = new Orders();
+        BeanUtils.copyProperties(ordersCancelDTO, orders);
         orders.setStatus(Orders.CANCELLED);
         orders.setCancelTime(LocalDateTime.now());
         orderMapper.update(orders);
