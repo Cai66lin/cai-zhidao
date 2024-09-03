@@ -26,3 +26,7 @@ sky:
     weChatPayCertFilePath:
     notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
     refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+  shop:
+    address: 广东省深圳市龙岗区
+  baidu:
+    ak:
