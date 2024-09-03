@@ -43,6 +43,7 @@ public class OrderController {
      * 订单支付
      * @param ordersPaymentDTO
      * @return
+     * @throws Exception
      */
     @PutMapping("/payment")
     @ApiOperation("订单支付")
@@ -79,6 +80,12 @@ public class OrderController {
         return Result.success(orderVO);
     }
 
+    /**
+     * 取消订单
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @ApiOperation("取消订单")
     @PutMapping("/cancel/{id}")
     public Result cancelOrder(@PathVariable Long id) throws Exception{
@@ -87,6 +94,11 @@ public class OrderController {
         return Result.success();
     }
 
+    /**
+     * 再来一单
+     * @param id
+     * @return
+     */
     @ApiOperation("再来一单")
     @PostMapping("/repetition/{id}")
     public Result repetition(@PathVariable Long id){

@@ -20,6 +20,7 @@ public interface OrderService {
      * 订单支付
      * @param ordersPaymentDTO
      * @return
+     * @throws Exception
      */
     OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception;
 
@@ -46,6 +47,7 @@ public interface OrderService {
     /**
      * 取消订单
      * @param id
+     * @throws Exception
      */
     void cancel(Long id) throws Exception;
 
@@ -73,4 +75,11 @@ public interface OrderService {
      * @param ordersConfirmDTO
      */
     void confirm(OrdersConfirmDTO ordersConfirmDTO);
+
+    /**
+     * 拒单
+     * @param ordersRejectionDTO
+     * @throws Exception
+     */
+    void rejection(OrdersRejectionDTO ordersRejectionDTO) throws Exception;
 }
