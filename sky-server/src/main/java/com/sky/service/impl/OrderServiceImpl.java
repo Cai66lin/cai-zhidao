@@ -491,6 +491,8 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
+
+
     /**
      * 检查客户的收货地址是否超出配送范围
      * @param address
@@ -553,5 +555,28 @@ public class OrderServiceImpl implements OrderService {
             //配送距离超过5000米
             throw new OrderBusinessException("超出配送范围");
         }
+    }
+
+    /**
+     * 催单
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+
+        //非空判断
+        if (orders == null){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        //通过websocket向客户端推送消息
+        Map map = new HashMap();
+        map.put("type",2);//催单提醒类型
+        map.put("orderId",id);
+        map.put("content","订单号：" + orders.getNumber());
+
+        String jsonString = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(jsonString);
     }
 }
