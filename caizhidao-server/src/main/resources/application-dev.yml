@@ -3,22 +3,22 @@ sky:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
     port: 3306
-    database: sky_take_out
+    database: mpw:LINhRIXHpgH9qLXf7P8SWQ==
     username: root
-    password: 666gGg88
+    password: mpw:CfAt6Q2O94P7a+QD2kAHjw==
   alioss:
-    endpoint:
-    bucket-name:
-    access-key-id:
-    access-key-secret:
+    endpoint: mpw:LvcVUk5CnrDDNtscztcms40nzLg8NaX4I1xSqNdWvUU=
+    bucket-name: mpw:VCU1ja6zMOXydRxTO9OPC79NbeWZ5TyYdgaJJK76Spg=
+    access-key-id: mpw:Cyp4hA3atwgjUpDZaxcHTiXWBhiCI89tPN9Dmhkbdyg=
+    access-key-secret: mpw:zcgBQIpi9DukzonWeRj1Cx5Nhr13BVKhbYVjEUbotaI=
   redis:
     host: localhost
     port: 6379
-    password: 666gGg88
+    password: mpw:CfAt6Q2O94P7a+QD2kAHjw==
     database: 6
   wechat:
-    appid: wx8cf04656e8ad1a73
-    secret: 95e1199f4348a0fb57c7cc15ea6ab9c3
+    appid: mpw:U6HqmoCTdvA0IRzvZS2qw0KUMI1m5t7/RWH5k6ax2a4=
+    secret: mpw:LLLZnTvlcS/fg3AYdkLinhReuTDrfknaa83OOTSRZSIOiHQFeqrsR5pd5Z6IXUTZ
     mchid:
     mchSerialNo:
     privateKeyFilePath:
@@ -29,4 +29,4 @@ sky:
   shop:
     address: 广东省汕头市澄海区德胜花园
   baidu:
-    ak: 3tZz8RkcAinNQgMRqRFeK61FQw1D21ld
+    ak: mpw:DxbiUpZLSuzcqmtQfbV8Puri8bt1zNf4j0rEOMQIbw4bZwHbjfqxhw0WiMc+87Yr
