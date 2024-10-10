@@ -7,10 +7,10 @@ sky:
     username: root
     password: 666gGg88
   alioss:
-    endpoint: oss-cn-shenzhen.aliyuncs.com
-    bucket-name: web-cai-filestream
-    access-key-id: LTAI5tLEUhQWTmPs215PDuLT
-    access-key-secret: vXISGGzEiBPSMp9hJhqkJdI5tazaG9
+    endpoint:
+    bucket-name:
+    access-key-id:
+    access-key-secret:
   redis:
     host: localhost
     port: 6379
