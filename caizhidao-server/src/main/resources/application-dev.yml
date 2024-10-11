@@ -3,30 +3,30 @@ sky:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
     port: 3306
-    database: mpw:LINhRIXHpgH9qLXf7P8SWQ==
+    database:
     username: root
-    password: mpw:CfAt6Q2O94P7a+QD2kAHjw==
+    password:
   alioss:
-    endpoint: mpw:LvcVUk5CnrDDNtscztcms40nzLg8NaX4I1xSqNdWvUU=
-    bucket-name: mpw:VCU1ja6zMOXydRxTO9OPC79NbeWZ5TyYdgaJJK76Spg=
-    access-key-id: mpw:Cyp4hA3atwgjUpDZaxcHTiXWBhiCI89tPN9Dmhkbdyg=
-    access-key-secret: mpw:zcgBQIpi9DukzonWeRj1Cx5Nhr13BVKhbYVjEUbotaI=
+    endpoint:
+    bucket-name:
+    access-key-id:
+    access-key-secret:
   redis:
     host: localhost
     port: 6379
-    password: mpw:CfAt6Q2O94P7a+QD2kAHjw==
+    password:
     database: 6
   wechat:
-    appid: mpw:U6HqmoCTdvA0IRzvZS2qw0KUMI1m5t7/RWH5k6ax2a4=
-    secret: mpw:LLLZnTvlcS/fg3AYdkLinhReuTDrfknaa83OOTSRZSIOiHQFeqrsR5pd5Z6IXUTZ
+    appid:
+    secret:
     mchid:
     mchSerialNo:
     privateKeyFilePath:
     apiV3Key:
     weChatPayCertFilePath:
-    notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
-    refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+    notifyUrl:
+    refundNotifyUrl:
   shop:
-    address: 广东省汕头市澄海区德胜花园
+    address:
   baidu:
-    ak: mpw:DxbiUpZLSuzcqmtQfbV8Puri8bt1zNf4j0rEOMQIbw4bZwHbjfqxhw0WiMc+87Yr
+    ak:
